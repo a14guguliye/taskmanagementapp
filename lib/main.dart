@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taskmanagementapp/screens/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:taskmanagementapp/screens/test.dart';
+import 'package:taskmanagementapp/screens/wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const SignIn(),
+      home: const Wrapper(),
     );
   }
 }

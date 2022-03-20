@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taskmanagementapp/widgets/magic_link_sent.dart';
 import 'package:taskmanagementapp/widgets/sign_in_form.dart';
 
 class SignIn extends StatefulWidget {
@@ -12,48 +14,74 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   double signinScreenHeight = 0;
   ScrollController scrollController = ScrollController();
+  bool emailSent = false;
 
-  void changeHeight() {
+  void wasEmailSent() {
     setState(() {
-      print("I am moving up or down");
-      if (signinScreenHeight != 0) {
-        signinScreenHeight = 0;
-      } else {
-        signinScreenHeight = 300;
-      }
+      emailSent = !emailSent;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    ScrollController sc = ScrollController();
-    DraggableScrollableController sd = DraggableScrollableController();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset('assets/images/signinimage.jpg'),
-              const SizedBox(height: 10),
-              Text(
-                "Welcome to Task Management App",
-                style: GoogleFonts.lato(
-                  letterSpacing: 1,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final widthS = constraints.maxWidth;
+          final heightS = constraints.maxHeight;
+
+          return Container(
+            width: widthS,
+            height: heightS,
+            decoration: const BoxDecoration(color: Colors.white),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ////image widget on the main screen
+                ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: heightS / 1.8,
+                    ),
+                    child: Image.asset('assets/images/signinimage.jpg')),
+
+                ////taking some breathing room
+                const SizedBox(height: 10),
+
+                ///text widget on the screen
+                Text(
+                  "Welcome to Task Management App",
+                  style: GoogleFonts.lato(
+                    letterSpacing: 1,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SigninForm(),
-            ],
-          ),
-        ),
+
+                ///taking some breathing room
+                const SizedBox(
+                  height: 10,
+                ),
+
+                ////signin form widget. it may display 2 widgets, either signin fomr
+                ///or email sent widget
+                Expanded(
+                  child: Container(
+                    width: widthS,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)),
+                        color: Color(0xFF00c2fc)),
+                    child: emailSent == false
+                        ? SigninForm(resetEmailState: wasEmailSent)
+                        : MagicLinkSent(
+                            resetEmailState: wasEmailSent), /*SigninForm()*/
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
