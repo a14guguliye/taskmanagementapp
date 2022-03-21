@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskmanagementapp/screens/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:taskmanagementapp/screens/test.dart';
 import 'package:taskmanagementapp/screens/wrapper.dart';
 
 void main() async {
@@ -30,6 +28,11 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+
+      ////below i initilialize a wrapper widget.
+      ///wrapper widget holds the reference to home widget where my tasks will appear
+      ///sign in widget if the user is unauthorized to enter. Firebase service will be used
+      ///to complete the sign in procedure
       home: const Wrapper(),
     );
   }

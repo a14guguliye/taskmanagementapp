@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class MagicLinkSent extends StatelessWidget {
   final Function resetEmailState;
 
-  MagicLinkSent({Key? key, required this.resetEmailState}) : super(key: key);
+  const MagicLinkSent({Key? key, required this.resetEmailState})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

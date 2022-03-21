@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:taskmanagementapp/services/firebase_auth.dart';
 
 class SigninForm extends StatefulWidget {
   final Function resetEmailState;
-  SigninForm({Key? key, required this.resetEmailState}) : super(key: key);
+  const SigninForm({Key? key, required this.resetEmailState}) : super(key: key);
   @override
   State<SigninForm> createState() => _SigninFormState();
 }
 
 class _SigninFormState extends State<SigninForm> {
   final _formKey = GlobalKey<FormState>();
+  FireBaseAuthService authService = FireBaseAuthService();
 
   @override
   Widget build(BuildContext context) {
     String? _email;
-    String? _password;
-    String emaiLink = '';
     FirebaseDynamicLinks.instance.onLink.listen((event) async {
       if (FirebaseAuth.instance.isSignInWithEmailLink(event.link.toString())) {
         await FirebaseAuth.instance
@@ -64,17 +64,8 @@ class _SigninFormState extends State<SigninForm> {
                       (states) => getColor(states)),
                 ),
                 onPressed: () async {
-                  var arc = ActionCodeSettings(
-                    url: 'https://taskmanagement-54879.firebaseapp.com',
-                    androidPackageName: 'com.example.taskmanagementapp',
-                    handleCodeInApp: true,
-                  );
-
                   if (_email != null) {
-                    await FirebaseAuth.instance
-                        .sendSignInLinkToEmail(
-                            email: _email!, actionCodeSettings: arc)
-                        .catchError((error) => print("Error happened: $error"));
+                    await authService.sendEmailLink(_email!);
 
                     widget.resetEmailState();
                   }

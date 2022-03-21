@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:taskmanagementapp/widgets/magic_link_sent.dart';
-import 'package:taskmanagementapp/widgets/sign_in_form.dart';
+import 'package:taskmanagementapp/widgets/authentication/magic_link_sent.dart';
+import 'package:taskmanagementapp/widgets/authentication/sign_in_form.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -13,7 +12,6 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   double signinScreenHeight = 0;
-  ScrollController scrollController = ScrollController();
   bool emailSent = false;
 
   void wasEmailSent() {
