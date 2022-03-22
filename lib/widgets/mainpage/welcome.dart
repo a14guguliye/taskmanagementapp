@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskmanagementapp/services/firebase_auth.dart';
 
 class WelcomeText extends StatelessWidget {
   const WelcomeText({Key? key}) : super(key: key);
@@ -9,12 +10,17 @@ class WelcomeText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       textBaseline: TextBaseline.ideographic,
-      children: const <Widget>[
-        Text(
+      children: <Widget>[
+        const Text(
           "Welcome, bro!",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        FittedBox(
+        IconButton(
+            onPressed: () async {
+              await FireBaseAuthService().signmeOutFromApp();
+            },
+            icon: const Icon(Icons.outlet)),
+        const FittedBox(
           fit: BoxFit.cover,
           child: CircleAvatar(
             radius: 30,

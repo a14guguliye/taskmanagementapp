@@ -22,4 +22,26 @@ class FireBaseAuthService {
       throw (error.toString());
     }).then((value) => null);
   }
+
+  ////getting the user credential once the user signed in successfully
+  ///the Functiont takes in two arguments, incoming emaillink + email user provided
+  ///throws error if there is any
+  Future<UserCredential?> signInWithEmailLink(
+      String emailedLink, String email) async {
+    if (_auth.isSignInWithEmailLink(emailedLink)) {
+      return _auth
+          .signInWithEmailLink(email: email, emailLink: emailedLink)
+          .catchError((error) => throw (error));
+    }
+    return null;
+  }
+
+  ////signing out
+  Future<void> signmeOutFromApp() async {
+    await _auth.signOut();
+  }
+
+  String get getMeCurrentUserUid {
+    return _auth.currentUser!.uid.toString();
+  }
 }

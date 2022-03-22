@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:taskmanagementapp/services/firebase_auth.dart';
 
@@ -17,13 +16,11 @@ class _SigninFormState extends State<SigninForm> {
   @override
   Widget build(BuildContext context) {
     String? _email;
+
+    ////once link has been received sign the user in.
     FirebaseDynamicLinks.instance.onLink.listen((event) async {
-      if (FirebaseAuth.instance.isSignInWithEmailLink(event.link.toString())) {
-        await FirebaseAuth.instance
-            .signInWithEmailLink(
-                email: _email!, emailLink: event.link.toString())
-            .catchError((error) => print(error));
-      }
+      ////the function will be called to sign the user in once we received the link
+      authService.signInWithEmailLink(event.link.toString(), _email!);
     });
 
     Color getColor(Set<MaterialState> states) {
@@ -65,8 +62,9 @@ class _SigninFormState extends State<SigninForm> {
                 ),
                 onPressed: () async {
                   if (_email != null) {
+                    ////send me email to log in
                     await authService.sendEmailLink(_email!);
-
+                    ////showing waiting fish on the screen
                     widget.resetEmailState();
                   }
                 },

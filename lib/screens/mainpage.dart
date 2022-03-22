@@ -49,7 +49,7 @@ class _MainPageState extends State<MainPage> {
               color: Colors.red,
               width: 1,
             )),
-            child: MainPageContet(),
+            child: MainPageContent(),
           ),
         ),
       );
