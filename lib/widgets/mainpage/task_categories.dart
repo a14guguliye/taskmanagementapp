@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class Categories extends StatefulWidget {
   final Function notifyCategory;
@@ -22,6 +21,9 @@ class _CategoriesState extends State<Categories> {
     ),
   );
 
+  Color activeBacground = const Color(0xFFFF4500);
+  Color activeTextColor = const Color(0xFF060506);
+
   @override
   Widget build(BuildContext context) {
     return LimitedBox(
@@ -40,14 +42,13 @@ class _CategoriesState extends State<Categories> {
             child: Container(
               width: 72,
               decoration: _activeIndex == 0
-                  ? inactiveCategoryDecoration.copyWith(
-                      color: Color(0xFF5500c2))
+                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
                   : inactiveCategoryDecoration,
               child: Center(
                 child: Text(
                   "All",
                   style: _activeIndex == 0
-                      ? categoriesStyle.copyWith(color: Color(0xFFFB8500))
+                      ? categoriesStyle.copyWith(color: activeTextColor)
                       : categoriesStyle,
                 ),
               ),
@@ -70,14 +71,13 @@ class _CategoriesState extends State<Categories> {
             child: Container(
               width: 72,
               decoration: _activeIndex == 1
-                  ? inactiveCategoryDecoration.copyWith(
-                      color: Color(0xFF5500c2))
+                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
                   : inactiveCategoryDecoration,
               child: Center(
                 child: Text(
                   "MRO",
                   style: _activeIndex == 1
-                      ? categoriesStyle.copyWith(color: Color(0xFFC28b00))
+                      ? categoriesStyle.copyWith(color: activeTextColor)
                       : categoriesStyle,
                 ),
               ),
@@ -99,14 +99,13 @@ class _CategoriesState extends State<Categories> {
             child: Container(
               width: 72,
               decoration: _activeIndex == 2
-                  ? inactiveCategoryDecoration.copyWith(
-                      color: Color(0xFF5500c2))
+                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
                   : inactiveCategoryDecoration,
               child: Center(
                 child: Text(
                   "Project",
                   style: _activeIndex == 2
-                      ? categoriesStyle.copyWith(color: Color(0xFFC28b00))
+                      ? categoriesStyle.copyWith(color: activeTextColor)
                       : categoriesStyle,
                 ),
               ),
@@ -128,14 +127,13 @@ class _CategoriesState extends State<Categories> {
             child: Container(
               width: 72,
               decoration: _activeIndex == 3
-                  ? inactiveCategoryDecoration.copyWith(
-                      color: Color(0xFF5500c2))
+                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
                   : inactiveCategoryDecoration,
               child: Center(
                 child: Text(
                   "Leads",
                   style: _activeIndex == 3
-                      ? categoriesStyle.copyWith(color: Color(0xFFC28b00))
+                      ? categoriesStyle.copyWith(color: activeTextColor)
                       : categoriesStyle,
                 ),
               ),

@@ -12,7 +12,7 @@ class WelcomeText extends StatelessWidget {
       textBaseline: TextBaseline.ideographic,
       children: <Widget>[
         const Text(
-          "Welcome, bro!",
+          "The Morning App!",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         IconButton(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:taskmanagementapp/screens/mainpage.dart';
-import 'package:taskmanagementapp/screens/sign_in.dart';
+import 'package:taskmanagementapp/screens/mainpage/mainpage.dart';
+import 'package:taskmanagementapp/screens/authentication/sign_in.dart';
 
 ////wrapper widget, it is very simple stateless widget which either
 ///opens the sign in page, or home page, depending on the state

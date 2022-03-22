@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskmanagementapp/screens/tasks/new_task.dart';
 import 'package:taskmanagementapp/widgets/mainpage/main_page_content.dart';
 
 class MainPage extends StatefulWidget {
@@ -34,7 +35,10 @@ class _MainPageState extends State<MainPage> {
             child: FloatingActionButton(
               backgroundColor: Colors.white,
               foregroundColor: const Color(0xFF122ADC),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TaskScreen()));
+              },
               child: const Icon(
                 Icons.add,
                 size: 34,

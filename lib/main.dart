@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:taskmanagementapp/screens/wrapper.dart';
+import 'package:taskmanagementapp/screens/authentication/wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
