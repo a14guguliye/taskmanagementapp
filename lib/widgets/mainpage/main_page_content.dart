@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:taskmanagementapp/models/reminder.dart';
 import 'package:taskmanagementapp/services/firebase_store.dart';
 import 'package:taskmanagementapp/widgets/mainpage/motivation.dart';
 import 'package:taskmanagementapp/widgets/mainpage/task_categories.dart';
+import 'package:taskmanagementapp/widgets/mainpage/tasks_container.dart';
 import 'package:taskmanagementapp/widgets/mainpage/welcome.dart';
 
 class MainPageContent extends StatefulWidget {
@@ -14,7 +14,6 @@ class MainPageContent extends StatefulWidget {
 
 class _MainPageContentState extends State<MainPageContent> {
   int selectedCategory = 0;
-  FireStoreDatabase fs = FireStoreDatabase();
 
   void changeSelectedCategory(int tappedCategory) {
     setState(() {
@@ -46,34 +45,13 @@ class _MainPageContentState extends State<MainPageContent> {
           ///categories strip widget
           Categories(notifyCategory: changeSelectedCategory),
 
-          /*ElevatedButton(
-              onPressed: () {
-                print(fs.getMeReminders());
-              },
-              child: Text("Hello")),*/
-          FutureBuilder<Iterable<Reminder>>(
-              future: fs.getMeReminders(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Text("Error happened");
-                }
-                if (snapshot.hasData == false) {
-                  return const Text("Document does not exist");
-                }
+          ///takking some breathing room
+          const SizedBox(
+            height: 20,
+          ),
 
-                if (snapshot.hasData) {
-                  return Expanded(
-                      child: ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return Text(snapshot.data!
-                                .elementAt(index)
-                                .businessUnit
-                                .toString());
-                          }));
-                }
-                return const Text("Loading");
-              }),
+          ///Reminders container.. below container holds the data of all reminders
+          const TasksContainer(),
         ],
       ),
     );
