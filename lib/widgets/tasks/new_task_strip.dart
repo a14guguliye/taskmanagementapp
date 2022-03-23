@@ -7,10 +7,10 @@ class NewTaskStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        "New Task",
+        "New Reminder",
         style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 40,
+            fontSize: 35,
             color: Color(0xFF242A3E)),
       ),
     );
