@@ -14,6 +14,11 @@ class FireStoreDatabase {
   final CollectionReference remindersCollectionReference =
       FirebaseFirestore.instance.collection('reminders');
 
+  //getter function for the reminder collection
+  CollectionReference get getRemindersCollectionReference {
+    return remindersCollectionReference;
+  }
+
   ///getting the current User
   Future<Users> getMeCurrentUser(String documentId) async {
     var userDocument = await users.doc(documentId).get();
@@ -40,5 +45,26 @@ class FireStoreDatabase {
     } catch (e) {
       return "error";
     }
+    return null;
+  }
+
+  ///getting the list of reminders
+  Future<List<Reminder>> getMeReminders() async {
+    List<Reminder> reminders = [];
+
+    await remindersCollectionReference
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((reminder) {
+        reminders.add(Reminder(
+            id: reminder.id,
+            businessUnit: reminder['businessunit'],
+            reminderCategory: reminder['remindercategory'],
+            reminderType: reminder['remindertype'],
+            entryDate: reminder['entrydate'].toDate()));
+      });
+    });
+
+    return reminders;
   }
 }
