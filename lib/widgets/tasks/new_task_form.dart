@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:taskmanagementapp/models/reminder.dart';
+import 'package:taskmanagementapp/screens/feedback/failure.dart';
+import 'package:taskmanagementapp/screens/feedback/success.dart';
 import 'package:taskmanagementapp/services/firebase_store.dart';
 
 List<String> bu = ['-', 'PRM', 'ISV', 'FC', 'MULTIBU'];
@@ -30,42 +32,58 @@ class _NewTaskFormState extends State<NewTaskForm> {
   ///3day
   String _reminderCategory = sendMeReminder[2];
 
+  ///below controller will be used to get the text value of the reminder
   final TextEditingController _reminderId = TextEditingController();
+
+  ////below controller will be used to get the text value of entry date
   final TextEditingController _entryDate = TextEditingController();
 
+  ////below inputborder style will be used to draw the horizontal line
+  ///below the input of the form
   InputBorder inputBorderEnabled = const UnderlineInputBorder(
       borderSide: BorderSide(width: 2, color: Color(0xFF3A86FF)));
 
+  ///below text style will be used to style the labels o the form
   TextStyle formLabelStyle = const TextStyle(
     fontWeight: FontWeight.w900,
     fontSize: 15,
     color: Color.fromARGB(255, 134, 140, 149),
   );
 
-  TextStyle formInputStyle =
+  ////below text style will be used to style the form input data fields
+  ///This text will be the text which user enters. These texts will be used
+  ///as per the below style
+  TextStyle formInputTextStyle =
       const TextStyle(color: Color(0xFF222A3F), fontWeight: FontWeight.bold);
 
+  ///// below input mask will e used for the styling of the date field
   final _dateMaskFormatter = MaskTextInputFormatter(
       mask: '####-##-##',
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
 
+  ///below input mask will be used to style the ID of the each reminder
   final _reminderIdFormatter = MaskTextInputFormatter(
       mask: '######',
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
 
+  ///below key will be used to validate the form fields
   final _formKey = GlobalKey<FormState>();
 
+  ///below reference will be used to get the reference to the FireStoreDatabase i wrote
+  ///initially
   FireStoreDatabase fs = FireStoreDatabase();
 
   @override
   Widget build(BuildContext context) {
+    ///below form is for the reminders
     return Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ///take some breathing room
             const SizedBox(
               height: 30,
             ),
@@ -75,6 +93,12 @@ class _NewTaskFormState extends State<NewTaskForm> {
               "Reminder Id,",
               style: formLabelStyle,
             ),
+
+            ///below text form field is for the id of the task
+            ///each task should have 6 digits code required. if
+            ///user enters any text with the length of less than 6
+            ///or null, the validator will now allow the user to proceed
+            ///further
             TextFormField(
               validator: (value) {
                 if (value == null) {
@@ -88,20 +112,23 @@ class _NewTaskFormState extends State<NewTaskForm> {
               },
               inputFormatters: [_reminderIdFormatter],
               keyboardType: TextInputType.number,
-              style: formInputStyle,
+              style: formInputTextStyle,
               controller: _reminderId,
               decoration: InputDecoration(enabledBorder: inputBorderEnabled),
             ),
 
-            ///
+            ///taking some breathing room
             const SizedBox(
               height: 30,
             ),
-            ////place where BU will be placed
+
             Text(
               "Business Unit",
               style: formLabelStyle,
             ),
+            ////place where BU will be placed.
+            ///Currently there are 4 BU s which are provided to be
+            ///chosen
             DropdownButtonFormField(
                 validator: (value) {
                   if (value == null || value.toString() == '-') {
@@ -109,7 +136,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                   }
                   return null;
                 },
-                style: formInputStyle,
+                style: formInputTextStyle,
                 decoration: InputDecoration(enabledBorder: inputBorderEnabled),
                 value: _selectedBuValue,
                 items: bu.map((e) {
@@ -131,6 +158,11 @@ class _NewTaskFormState extends State<NewTaskForm> {
               "Reminder Type",
               style: formLabelStyle,
             ),
+
+            /////below dropdown field will be used to choose the
+            ///category of the each task
+            ///it can be ALL, MRO, PROJECT, LEAD
+            ///or whatever user decides to choose
             DropdownButtonFormField(
                 validator: (value) {
                   if (value == null || value.toString() == '-') {
@@ -138,7 +170,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                   }
                   return null;
                 },
-                style: formInputStyle,
+                style: formInputTextStyle,
                 decoration: InputDecoration(enabledBorder: inputBorderEnabled),
                 value: selectedTaskValue,
                 items: taskTypes.map((e) {
@@ -159,6 +191,9 @@ class _NewTaskFormState extends State<NewTaskForm> {
               "Entry Date",
               style: formLabelStyle,
             ),
+
+            ////below textFormfield will be used to enter the date
+            ///the date format as of now will be yyyy-mm-dd format
             TextFormField(
               validator: (value) {
                 if (value == null) {
@@ -170,12 +205,13 @@ class _NewTaskFormState extends State<NewTaskForm> {
               },
               inputFormatters: [_dateMaskFormatter],
               keyboardType: TextInputType.datetime,
-              style: formInputStyle,
+              style: formInputTextStyle,
               controller: _entryDate,
               decoration: InputDecoration(enabledBorder: inputBorderEnabled),
               onChanged: (val) {},
             ),
 
+            ///taking some breathing room
             const SizedBox(
               height: 30,
             ),
@@ -183,8 +219,11 @@ class _NewTaskFormState extends State<NewTaskForm> {
               "Reminder Category",
               style: formLabelStyle,
             ),
+
+            ///here period is chosen on which the reminders to be sent to the
+            ///user
             DropdownButtonFormField(
-                style: formInputStyle,
+                style: formInputTextStyle,
                 decoration: InputDecoration(enabledBorder: inputBorderEnabled),
                 value: _reminderCategory,
                 items: sendMeReminder.map((e) {
@@ -226,9 +265,26 @@ class _NewTaskFormState extends State<NewTaskForm> {
 
                         await fs.addRemindertoDatabase(reminder).then((value) {
                           if (value == null) {
+                            ///popping the form
                             ////success screen will go here
+                            Navigator.of(context).pop();
+
+                            ///pushing the success room
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (builder) {
+                              return const SuccessScreen();
+                            }));
                           } else {
                             ////error screen will go here
+                            //////popping the form
+                            ////error screen will go here
+                            Navigator.of(context).pop();
+
+                            ///pushing the success room
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (builder) {
+                              return const ErrorScreen();
+                            }));
                           }
                         });
                       }
