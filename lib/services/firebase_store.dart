@@ -49,21 +49,65 @@ class FireStoreDatabase {
   }
 
   ///getting the list of reminders
-  Future<List<Reminder>> getMeReminders() async {
+  Future<List<Reminder>> getMeReminders(int tappedCategory) async {
     List<Reminder> reminders = [];
 
-    await remindersCollectionReference
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((reminder) {
-        reminders.add(Reminder(
-            id: reminder.id,
-            businessUnit: reminder['businessunit'],
-            reminderCategory: reminder['remindercategory'],
-            reminderType: reminder['remindertype'],
-            entryDate: reminder['entrydate'].toDate()));
+    if (tappedCategory == 0) {
+      await remindersCollectionReference
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((reminder) {
+          reminders.add(Reminder(
+              id: reminder.id,
+              businessUnit: reminder['businessunit'],
+              reminderCategory: reminder['remindercategory'],
+              reminderType: reminder['remindertype'],
+              entryDate: reminder['entrydate'].toDate()));
+        });
       });
-    });
+    } else if (tappedCategory == 1) {
+      await remindersCollectionReference
+          .where('remindertype', isEqualTo: 'MRO')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((reminder) {
+          reminders.add(Reminder(
+              id: reminder.id,
+              businessUnit: reminder['businessunit'],
+              reminderCategory: reminder['remindercategory'],
+              reminderType: reminder['remindertype'],
+              entryDate: reminder['entrydate'].toDate()));
+        });
+      });
+    } else if (tappedCategory == 2) {
+      await remindersCollectionReference
+          .where('remindertype', isEqualTo: 'PROJECT')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((reminder) {
+          reminders.add(Reminder(
+              id: reminder.id,
+              businessUnit: reminder['businessunit'],
+              reminderCategory: reminder['remindercategory'],
+              reminderType: reminder['remindertype'],
+              entryDate: reminder['entrydate'].toDate()));
+        });
+      });
+    } else if (tappedCategory == 3) {
+      await remindersCollectionReference
+          .where('remindertype', isEqualTo: 'LEAD')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((reminder) {
+          reminders.add(Reminder(
+              id: reminder.id,
+              businessUnit: reminder['businessunit'],
+              reminderCategory: reminder['remindercategory'],
+              reminderType: reminder['remindertype'],
+              entryDate: reminder['entrydate'].toDate()));
+        });
+      });
+    }
 
     return reminders;
   }

@@ -26,120 +26,141 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
-    return LimitedBox(
-      maxHeight: 60,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          ///all
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _activeIndex = 0;
-                widget.notifyCategory(_activeIndex);
-              });
-            },
-            child: Container(
-              width: 72,
-              decoration: _activeIndex == 0
-                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
-                  : inactiveCategoryDecoration,
-              child: Center(
-                child: Text(
-                  "All",
-                  style: _activeIndex == 0
-                      ? categoriesStyle.copyWith(color: activeTextColor)
-                      : categoriesStyle,
-                ),
-              ),
-            ),
-          ),
-
-          ////taking some breathing room
-          const SizedBox(
-            width: 24,
-          ),
-
-          ///MRO
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _activeIndex = 1;
-                widget.notifyCategory(_activeIndex);
-              });
-            },
-            child: Container(
-              width: 72,
-              decoration: _activeIndex == 1
-                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
-                  : inactiveCategoryDecoration,
-              child: Center(
-                child: Text(
-                  "MRO",
-                  style: _activeIndex == 1
-                      ? categoriesStyle.copyWith(color: activeTextColor)
-                      : categoriesStyle,
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(
-            width: 24,
-          ),
-
-          ///project
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _activeIndex = 2;
-                widget.notifyCategory(_activeIndex);
-              });
-            },
-            child: Container(
-              width: 72,
-              decoration: _activeIndex == 2
-                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
-                  : inactiveCategoryDecoration,
-              child: Center(
-                child: Text(
-                  "Project",
-                  style: _activeIndex == 2
-                      ? categoriesStyle.copyWith(color: activeTextColor)
-                      : categoriesStyle,
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(
-            width: 24,
-          ),
-
-          ///NCR
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _activeIndex = 3;
-                widget.notifyCategory(_activeIndex);
-              });
-            },
-            child: Container(
-              width: 72,
-              decoration: _activeIndex == 3
-                  ? inactiveCategoryDecoration.copyWith(color: activeBacground)
-                  : inactiveCategoryDecoration,
-              child: Center(
-                child: Text(
-                  "Leads",
-                  style: _activeIndex == 3
-                      ? categoriesStyle.copyWith(color: activeTextColor)
-                      : categoriesStyle,
-                ),
-              ),
-            ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFEBF3FF),
+            spreadRadius: 3,
+            blurRadius: 3,
+            offset: Offset(0, 4.75), // changes position of shadow
           ),
         ],
+      ),
+      child: LimitedBox(
+        maxHeight: 68,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              ///all
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _activeIndex = 0;
+                    widget.notifyCategory(_activeIndex);
+                  });
+                },
+                child: Container(
+                  width: 72,
+                  decoration: _activeIndex == 0
+                      ? inactiveCategoryDecoration.copyWith(
+                          color: activeBacground)
+                      : inactiveCategoryDecoration,
+                  child: Center(
+                    child: Text(
+                      "All",
+                      style: _activeIndex == 0
+                          ? categoriesStyle.copyWith(color: activeTextColor)
+                          : categoriesStyle,
+                    ),
+                  ),
+                ),
+              ),
+
+              ////taking some breathing room
+              const SizedBox(
+                width: 24,
+              ),
+
+              ///MRO
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _activeIndex = 1;
+                    widget.notifyCategory(_activeIndex);
+                  });
+                },
+                child: Container(
+                  width: 72,
+                  decoration: _activeIndex == 1
+                      ? inactiveCategoryDecoration.copyWith(
+                          color: activeBacground)
+                      : inactiveCategoryDecoration,
+                  child: Center(
+                    child: Text(
+                      "MRO",
+                      style: _activeIndex == 1
+                          ? categoriesStyle.copyWith(color: activeTextColor)
+                          : categoriesStyle,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                width: 24,
+              ),
+
+              ///project
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _activeIndex = 2;
+                    widget.notifyCategory(_activeIndex);
+                  });
+                },
+                child: Container(
+                  width: 72,
+                  decoration: _activeIndex == 2
+                      ? inactiveCategoryDecoration.copyWith(
+                          color: activeBacground)
+                      : inactiveCategoryDecoration,
+                  child: Center(
+                    child: Text(
+                      "Project",
+                      style: _activeIndex == 2
+                          ? categoriesStyle.copyWith(color: activeTextColor)
+                          : categoriesStyle,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                width: 24,
+              ),
+
+              ///NCR
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _activeIndex = 3;
+                    widget.notifyCategory(_activeIndex);
+                  });
+                },
+                child: Container(
+                  width: 72,
+                  decoration: _activeIndex == 3
+                      ? inactiveCategoryDecoration.copyWith(
+                          color: activeBacground)
+                      : inactiveCategoryDecoration,
+                  child: Center(
+                    child: Text(
+                      "Leads",
+                      style: _activeIndex == 3
+                          ? categoriesStyle.copyWith(color: activeTextColor)
+                          : categoriesStyle,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -51,7 +51,9 @@ class _MainPageContentState extends State<MainPageContent> {
           ),
 
           ///Reminders container.. below container holds the data of all reminders
-          const TasksContainer(),
+          TasksContainer(
+            tappedCategoryIndex: selectedCategory,
+          ),
         ],
       ),
     );

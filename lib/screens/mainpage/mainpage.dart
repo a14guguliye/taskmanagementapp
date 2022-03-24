@@ -45,15 +45,10 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          body: Container(
+          body: SizedBox(
             width: constraints.maxWidth,
             height: constraints.maxHeight,
-            decoration: BoxDecoration(
-                border: Border.all(
-              color: Colors.red,
-              width: 1,
-            )),
-            child: MainPageContent(),
+            child: const MainPageContent(),
           ),
         ),
       );
