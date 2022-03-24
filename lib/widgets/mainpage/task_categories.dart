@@ -44,6 +44,7 @@ class _CategoriesState extends State<Categories> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             scrollDirection: Axis.horizontal,
             children: [
               ///all

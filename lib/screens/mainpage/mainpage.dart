@@ -33,6 +33,7 @@ class _MainPageState extends State<MainPage> {
             width: 65,
             height: 65,
             child: FloatingActionButton(
+              elevation: 10,
               backgroundColor: Colors.white,
               foregroundColor: const Color(0xFF122ADC),
               onPressed: () {

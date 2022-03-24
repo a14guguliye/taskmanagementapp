@@ -49,62 +49,120 @@ class FireStoreDatabase {
   }
 
   ///getting the list of reminders
-  Future<List<Reminder>> getMeReminders(int tappedCategory) async {
+  Future<List<Reminder>> getMeReminders(
+      int tappedReminderCategory, int tappedBottomCategory) async {
     List<Reminder> reminders = [];
+    DateTime todaysDate = DateTime.now();
 
-    if (tappedCategory == 0) {
+    if (tappedReminderCategory == 0) {
       await remindersCollectionReference
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((reminder) {
-          reminders.add(Reminder(
-              id: reminder.id,
-              businessUnit: reminder['businessunit'],
-              reminderCategory: reminder['remindercategory'],
-              reminderType: reminder['remindertype'],
-              entryDate: reminder['entrydate'].toDate()));
+          if (tappedBottomCategory == 0) {
+            ////if home button is pressed, fetch all reminders
+            reminders.add(Reminder(
+                id: reminder.id,
+                businessUnit: reminder['businessunit'],
+                reminderCategory: reminder['remindercategory'],
+                reminderType: reminder['remindertype'],
+                entryDate: reminder['entrydate'].toDate()));
+          } else if (tappedBottomCategory == 1) {
+            ////if notification button is pressed, fetch only today's tasks
+            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
+                int.parse(reminder['remindercategory'])) {
+              reminders.add(Reminder(
+                  id: reminder.id,
+                  businessUnit: reminder['businessunit'],
+                  reminderCategory: reminder['remindercategory'],
+                  reminderType: reminder['remindertype'],
+                  entryDate: reminder['entrydate'].toDate()));
+            }
+          }
         });
       });
-    } else if (tappedCategory == 1) {
+    } else if (tappedReminderCategory == 1) {
       await remindersCollectionReference
           .where('remindertype', isEqualTo: 'MRO')
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((reminder) {
-          reminders.add(Reminder(
-              id: reminder.id,
-              businessUnit: reminder['businessunit'],
-              reminderCategory: reminder['remindercategory'],
-              reminderType: reminder['remindertype'],
-              entryDate: reminder['entrydate'].toDate()));
+          if (tappedBottomCategory == 0) {
+            ////if home button is pressed, fetch all reminders
+            reminders.add(Reminder(
+                id: reminder.id,
+                businessUnit: reminder['businessunit'],
+                reminderCategory: reminder['remindercategory'],
+                reminderType: reminder['remindertype'],
+                entryDate: reminder['entrydate'].toDate()));
+          } else if (tappedBottomCategory == 1) {
+            ////if notification button is pressed, fetch only today's tasks
+            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
+                int.parse(reminder['remindercategory'])) {
+              reminders.add(Reminder(
+                  id: reminder.id,
+                  businessUnit: reminder['businessunit'],
+                  reminderCategory: reminder['remindercategory'],
+                  reminderType: reminder['remindertype'],
+                  entryDate: reminder['entrydate'].toDate()));
+            }
+          }
         });
       });
-    } else if (tappedCategory == 2) {
+    } else if (tappedReminderCategory == 2) {
       await remindersCollectionReference
           .where('remindertype', isEqualTo: 'PROJECT')
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((reminder) {
-          reminders.add(Reminder(
-              id: reminder.id,
-              businessUnit: reminder['businessunit'],
-              reminderCategory: reminder['remindercategory'],
-              reminderType: reminder['remindertype'],
-              entryDate: reminder['entrydate'].toDate()));
+          if (tappedBottomCategory == 0) {
+            ////if home button is pressed, fetch all reminders
+            reminders.add(Reminder(
+                id: reminder.id,
+                businessUnit: reminder['businessunit'],
+                reminderCategory: reminder['remindercategory'],
+                reminderType: reminder['remindertype'],
+                entryDate: reminder['entrydate'].toDate()));
+          } else if (tappedBottomCategory == 1) {
+            ////if notification button is pressed, fetch only today's tasks
+            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
+                int.parse(reminder['remindercategory'])) {
+              reminders.add(Reminder(
+                  id: reminder.id,
+                  businessUnit: reminder['businessunit'],
+                  reminderCategory: reminder['remindercategory'],
+                  reminderType: reminder['remindertype'],
+                  entryDate: reminder['entrydate'].toDate()));
+            }
+          }
         });
       });
-    } else if (tappedCategory == 3) {
+    } else if (tappedReminderCategory == 3) {
       await remindersCollectionReference
           .where('remindertype', isEqualTo: 'LEAD')
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((reminder) {
-          reminders.add(Reminder(
-              id: reminder.id,
-              businessUnit: reminder['businessunit'],
-              reminderCategory: reminder['remindercategory'],
-              reminderType: reminder['remindertype'],
-              entryDate: reminder['entrydate'].toDate()));
+          if (tappedBottomCategory == 0) {
+            ////if home button is pressed, fetch all reminders
+            reminders.add(Reminder(
+                id: reminder.id,
+                businessUnit: reminder['businessunit'],
+                reminderCategory: reminder['remindercategory'],
+                reminderType: reminder['remindertype'],
+                entryDate: reminder['entrydate'].toDate()));
+          } else if (tappedBottomCategory == 1) {
+            ////if notification button is pressed, fetch only today's tasks
+            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
+                int.parse(reminder['remindercategory'])) {
+              reminders.add(Reminder(
+                  id: reminder.id,
+                  businessUnit: reminder['businessunit'],
+                  reminderCategory: reminder['remindercategory'],
+                  reminderType: reminder['remindertype'],
+                  entryDate: reminder['entrydate'].toDate()));
+            }
+          }
         });
       });
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskmanagementapp/services/firebase_store.dart';
+import 'package:taskmanagementapp/widgets/mainpage/bottom_strip.dart';
 import 'package:taskmanagementapp/widgets/mainpage/motivation.dart';
 import 'package:taskmanagementapp/widgets/mainpage/task_categories.dart';
 import 'package:taskmanagementapp/widgets/mainpage/tasks_container.dart';
@@ -14,6 +15,7 @@ class MainPageContent extends StatefulWidget {
 
 class _MainPageContentState extends State<MainPageContent> {
   int selectedCategory = 0;
+  int tappedBottomIndex = 0;
 
   void changeSelectedCategory(int tappedCategory) {
     setState(() {
@@ -21,41 +23,51 @@ class _MainPageContentState extends State<MainPageContent> {
     });
   }
 
+  void updateMainPageContent({required int tappedBottomButton}) {
+    setState(() {
+      tappedBottomIndex = tappedBottomButton;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ////below widget holds the reference to the welcoming text + profile icon
-          ///it is called welcome.dart
-          const WelcomeText(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ////below widget holds the reference to the welcoming text + profile icon
+        ///it is called welcome.dart
+        const Padding(
+          padding: EdgeInsets.fromLTRB(30, 30, 30, 20),
+          child: WelcomeText(),
+        ),
 
-          const SizedBox(
-            height: 10,
-          ),
-          ////motivation strip widget
-          const Motivation(),
+        ////motivation strip widget
+        const Padding(
+          padding: EdgeInsets.fromLTRB(30, 30, 30, 20),
+          child: Motivation(),
+        ),
 
-          const SizedBox(
-            height: 20,
-          ),
+        ///categories strip widget
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: Categories(notifyCategory: changeSelectedCategory),
+        ),
 
-          ///categories strip widget
-          Categories(notifyCategory: changeSelectedCategory),
+        ///Reminders container.. below container holds the data of all reminders
+        ///the reminder state changes with either selected Reminder category OR
+        ///tapped Bottom Index;
+        TasksContainer(
+          tappedCategoryIndex: selectedCategory,
+          tappedBottomIndex: tappedBottomIndex,
+        ),
 
-          ///takking some breathing room
-          const SizedBox(
-            height: 20,
-          ),
-
-          ///Reminders container.. below container holds the data of all reminders
-          TasksContainer(
-            tappedCategoryIndex: selectedCategory,
-          ),
-        ],
-      ),
+        ////bottom container that holds info whether to populate the task
+        ///container with all reminders, or today's tasks
+        BottomStrip(
+          updateStateofParent: updateMainPageContent,
+          tappedBottomIndex: tappedBottomIndex,
+        ),
+      ],
     );
   }
 }
