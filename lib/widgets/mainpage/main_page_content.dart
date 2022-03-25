@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taskmanagementapp/services/firebase_store.dart';
 import 'package:taskmanagementapp/widgets/mainpage/bottom_strip.dart';
 import 'package:taskmanagementapp/widgets/mainpage/motivation.dart';
 import 'package:taskmanagementapp/widgets/mainpage/task_categories.dart';

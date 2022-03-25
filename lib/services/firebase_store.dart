@@ -38,7 +38,9 @@ class FireStoreDatabase {
         'businessunit': newReminder.businessUnit,
         'remindertype': newReminder.reminderType,
         'remindercategory': newReminder.reminderCategory,
-        'entrydate': newReminder.entryDate
+        'entrydate': newReminder.entryDate,
+        'reminderdate': newReminder.entryDate
+            .add(Duration(days: int.parse(newReminder.reminderCategory)))
       }).then((value) {
         return null;
       });
@@ -66,17 +68,21 @@ class FireStoreDatabase {
                 businessUnit: reminder['businessunit'],
                 reminderCategory: reminder['remindercategory'],
                 reminderType: reminder['remindertype'],
-                entryDate: reminder['entrydate'].toDate()));
+                entryDate: reminder['entrydate'].toDate(),
+                reminderDate: reminder['reminderdate'].toDate()));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
             if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
                 int.parse(reminder['remindercategory'])) {
-              reminders.add(Reminder(
-                  id: reminder.id,
-                  businessUnit: reminder['businessunit'],
-                  reminderCategory: reminder['remindercategory'],
-                  reminderType: reminder['remindertype'],
-                  entryDate: reminder['entrydate'].toDate()));
+              reminders.add(
+                Reminder(
+                    id: reminder.id,
+                    businessUnit: reminder['businessunit'],
+                    reminderCategory: reminder['remindercategory'],
+                    reminderType: reminder['remindertype'],
+                    entryDate: reminder['entrydate'].toDate(),
+                    reminderDate: reminder['reminderdate'].toDate()),
+              );
             }
           }
         });
@@ -94,7 +100,8 @@ class FireStoreDatabase {
                 businessUnit: reminder['businessunit'],
                 reminderCategory: reminder['remindercategory'],
                 reminderType: reminder['remindertype'],
-                entryDate: reminder['entrydate'].toDate()));
+                entryDate: reminder['entrydate'].toDate(),
+                reminderDate: reminder['reminderdate'].toDate()));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
             if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
@@ -104,7 +111,8 @@ class FireStoreDatabase {
                   businessUnit: reminder['businessunit'],
                   reminderCategory: reminder['remindercategory'],
                   reminderType: reminder['remindertype'],
-                  entryDate: reminder['entrydate'].toDate()));
+                  entryDate: reminder['entrydate'].toDate(),
+                  reminderDate: reminder['reminderdate'].toDate()));
             }
           }
         });
@@ -122,7 +130,8 @@ class FireStoreDatabase {
                 businessUnit: reminder['businessunit'],
                 reminderCategory: reminder['remindercategory'],
                 reminderType: reminder['remindertype'],
-                entryDate: reminder['entrydate'].toDate()));
+                entryDate: reminder['entrydate'].toDate(),
+                reminderDate: reminder['reminderdate'].toDate()));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
             if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
@@ -132,7 +141,8 @@ class FireStoreDatabase {
                   businessUnit: reminder['businessunit'],
                   reminderCategory: reminder['remindercategory'],
                   reminderType: reminder['remindertype'],
-                  entryDate: reminder['entrydate'].toDate()));
+                  entryDate: reminder['entrydate'].toDate(),
+                  reminderDate: reminder['reminderdate'].toDate()));
             }
           }
         });
@@ -150,7 +160,8 @@ class FireStoreDatabase {
                 businessUnit: reminder['businessunit'],
                 reminderCategory: reminder['remindercategory'],
                 reminderType: reminder['remindertype'],
-                entryDate: reminder['entrydate'].toDate()));
+                entryDate: reminder['entrydate'].toDate(),
+                reminderDate: reminder['reminderdate'].toDate()));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
             if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
@@ -160,7 +171,8 @@ class FireStoreDatabase {
                   businessUnit: reminder['businessunit'],
                   reminderCategory: reminder['remindercategory'],
                   reminderType: reminder['remindertype'],
-                  entryDate: reminder['entrydate'].toDate()));
+                  entryDate: reminder['entrydate'].toDate(),
+                  reminderDate: reminder['reminderdate'].toDate()));
             }
           }
         });

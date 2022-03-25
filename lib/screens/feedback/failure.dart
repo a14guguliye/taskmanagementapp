@@ -49,7 +49,5 @@ class ErrorScreen extends StatelessWidget {
         );
       })),
     );
-
-    ;
   }
 }
