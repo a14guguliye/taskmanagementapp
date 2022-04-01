@@ -11,17 +11,18 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  double signinScreenHeight = 0;
-  bool emailSent = false;
+  ValueNotifier<bool> emailSent = ValueNotifier(false);
 
   void wasEmailSent() {
     setState(() {
-      emailSent = !emailSent;
+      emailSent.value = !emailSent.value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+  
+
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -45,7 +46,7 @@ class _SignInState extends State<SignIn> {
                 ////taking some breathing room
                 const SizedBox(height: 10),
 
-                ///text widget on the screen
+                ///welcome text  widget on the screen
                 Text(
                   "Welcome to Task Management App",
                   style: GoogleFonts.lato(
@@ -61,21 +62,24 @@ class _SignInState extends State<SignIn> {
                 ),
 
                 ////signin form widget. it may display 2 widgets, either signin fomr
-                ///or email sent widget
-                Expanded(
-                  child: Container(
-                    width: widthS,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
-                        color: Color(0xFF00c2fc)),
-                    child: emailSent == false
-                        ? SigninForm(resetEmailState: wasEmailSent)
-                        : MagicLinkSent(
-                            resetEmailState: wasEmailSent), /*SigninForm()*/
-                  ),
-                ),
+                ///or email sent widget with the fish playing around
+                ValueListenableBuilder<bool>(
+                    valueListenable: emailSent,
+                    builder: (context, emailSent, widget) {
+                      return Expanded(
+                        child: Container(
+                          width: widthS,
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30)),
+                              color: Color(0xFF00c2fc)),
+                          child: emailSent == false
+                              ? SigninForm(resetEmailState: wasEmailSent)
+                              : MagicLinkSent(resetEmailState: wasEmailSent),
+                        ),
+                      );
+                    }),
               ],
             ),
           );

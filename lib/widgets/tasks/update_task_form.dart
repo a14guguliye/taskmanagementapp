@@ -9,37 +9,25 @@ List<String> bu = ['-', 'PRM', 'ISV', 'FC', 'MULTIBU'];
 List<String> taskTypes = ['-', 'MRO', 'LEAD', 'PROJECT'];
 List<String> sendMeReminder = ['1', '2', '3', '4'];
 
-class NewTaskForm extends StatefulWidget {
-  const NewTaskForm({Key? key}) : super(key: key);
+class UpdateTaskForm extends StatefulWidget {
+  final Reminder passedReminder;
+  const UpdateTaskForm({Key? key, required this.passedReminder})
+      : super(key: key);
 
   @override
-  State<NewTaskForm> createState() => _NewTaskFormState();
+  State<UpdateTaskForm> createState() => _UpdateTaskFormState();
 }
 
-class _NewTaskFormState extends State<NewTaskForm> {
+class _UpdateTaskFormState extends State<UpdateTaskForm> {
   ///Below variable will hold the selected bu value for the reminder object
   ///and it will be updated with the controller text of Bu textinput
   String _selectedBuValue = bu[0].toString();
-
-  ////Below variable will hold the selected task type whether it is MRO TASK, or
-  ///lead, or project, whatever. That value will be updated as per value coming
-  ///out of controller of task value textinput
-  String selectedTaskValue = taskTypes[0].toString();
 
   ///Reminder category will hold a value that will tell me the period where the reminder
   ///should be send as per. For example, if it is 1, the reminder should be sent every day
   ///or 2, reminder should be sent every 2 days, or 3---reminder should be sent in every
   ///3day
   String _reminderCategory = sendMeReminder[2];
-
-  ///below controller will be used to get the text value of the reminder
-  final TextEditingController _reminderId = TextEditingController();
-
-  ////below controller will be used to get the text value of entry date
-  final TextEditingController _entryDate = TextEditingController();
-
-  ///below controller will be used to get the text value of the description
-  final TextEditingController _description = TextEditingController();
 
   ////below inputborder style will be used to draw the horizontal line
   ///below the input of the form
@@ -78,6 +66,27 @@ class _NewTaskFormState extends State<NewTaskForm> {
 
   @override
   Widget build(BuildContext context) {
+    ///below controller will be used to get the text value of the reminder
+    final TextEditingController _reminderId =
+        TextEditingController(text: widget.passedReminder.id.toString());
+
+    ////below controller will be used to get the text value of entry date
+    TextEditingController _entryDate = TextEditingController(
+        text: widget.passedReminder.reminderDate.toString());
+
+    ///below controller will be used to get the text value of the description
+    final TextEditingController _description =
+        TextEditingController(text: widget.passedReminder.description);
+
+    ////Below variable will hold the selected task type whether it is MRO TASK, or
+    ///lead, or project, whatever. That value will be updated as per value coming
+    ///out of controller of task value textinput
+    String selectedTaskValue = widget.passedReminder.reminderType;
+
+    ///Below variable will hold the selected bu value for the reminder object
+    ///and it will be updated with the controller text of Bu textinput
+    String _selectedBuValue = widget.passedReminder.businessUnit.toString();
+
     ///below form is for the reminders
     return Form(
         key: _formKey,
@@ -101,6 +110,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
             ///or null, the validator will now allow the user to proceed
             ///further
             TextFormField(
+              controller: _reminderId,
               validator: (value) {
                 if (value == null) {
                   return "Empty fields are not allowed";
@@ -112,7 +122,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
                 return null;
               },
               style: formInputTextStyle,
-              controller: _reminderId,
               decoration: InputDecoration(enabledBorder: inputBorderEnabled),
             ),
 
@@ -145,9 +154,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                       value: e.toString(), child: Text(e.toString()));
                 }).toList(),
                 onChanged: (val) {
-                  setState(() {
-                    _selectedBuValue = val.toString();
-                  });
+                  _selectedBuValue = val.toString();
                 }),
 
             const SizedBox(
@@ -173,15 +180,13 @@ class _NewTaskFormState extends State<NewTaskForm> {
                 },
                 style: formInputTextStyle,
                 decoration: InputDecoration(enabledBorder: inputBorderEnabled),
-                value: selectedTaskValue,
+                value: widget.passedReminder.reminderType.toString(),
                 items: taskTypes.map((e) {
                   return DropdownMenuItem<String>(
                       value: e.toString(), child: Text(e.toString()));
                 }).toList(),
                 onChanged: (val) {
-                  setState(() {
-                    selectedTaskValue = val.toString();
-                  });
+                  selectedTaskValue = val.toString();
                 }),
 
             const SizedBox(
@@ -189,7 +194,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
             ),
 
             Text(
-              "Reminder Date",
+              "New Reminder Date",
               style: formLabelStyle,
             ),
 
@@ -275,7 +280,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                             businessUnit: _selectedBuValue.toString(),
                             reminderCategory: _reminderCategory,
                             reminderType: selectedTaskValue,
-                            entryDate: DateTime.now(),
+                            entryDate: widget.passedReminder.entryDate,
                             description:
                                 _description.text.toString().toLowerCase(),
                             reminderDate:
@@ -309,7 +314,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                     }
                   },
                   child: const Text(
-                    "Create New Reminder",
+                    "Update New Reminder",
                     style: TextStyle(fontSize: 15),
                   )),
             )),

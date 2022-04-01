@@ -13,17 +13,14 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 60,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        foregroundColor: const Color(0xFF242A3E),
-      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(35),
+          padding: const EdgeInsets.all(30),
           child: Column(
             children: const <Widget>[
+              SizedBox(
+                height: 50,
+              ),
               NewTaskStrip(),
               NewTaskForm(),
             ],

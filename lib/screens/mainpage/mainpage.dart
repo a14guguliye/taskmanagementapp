@@ -2,20 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:taskmanagementapp/screens/tasks/new_task.dart';
 import 'package:taskmanagementapp/widgets/mainpage/main_page_content.dart';
 
-class MainPage extends StatefulWidget {
+class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  @override
   Widget build(BuildContext context) {
-    print("Width");
-    print(MediaQuery.of(context).size.width);
-    print("Height");
-    print(MediaQuery.of(context).size.height);
+    print("hello, i am building a");
     return LayoutBuilder(builder: (context, constraints) {
       return SafeArea(
         child: Scaffold(
@@ -37,8 +29,10 @@ class _MainPageState extends State<MainPage> {
               backgroundColor: Colors.white,
               foregroundColor: const Color(0xFF122ADC),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TaskScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TaskScreen()));
               },
               child: const Icon(
                 Icons.add,

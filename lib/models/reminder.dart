@@ -5,6 +5,7 @@ class Reminder {
   final DateTime entryDate;
   final String reminderCategory;
   DateTime? reminderDate;
+  String? description;
 
   Reminder(
       {required this.id,
@@ -12,5 +13,6 @@ class Reminder {
       required this.reminderCategory,
       required this.reminderType,
       required this.entryDate,
-      this.reminderDate});
+      this.reminderDate,
+      this.description});
 }

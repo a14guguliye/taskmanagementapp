@@ -38,9 +38,28 @@ class FireStoreDatabase {
         'businessunit': newReminder.businessUnit,
         'remindertype': newReminder.reminderType,
         'remindercategory': newReminder.reminderCategory,
-        'entrydate': newReminder.entryDate,
-        'reminderdate': newReminder.entryDate
-            .add(Duration(days: int.parse(newReminder.reminderCategory)))
+        'entrydate': DateTime.now(),
+        'reminderdate': newReminder.reminderDate,
+        'description': newReminder.description
+      }).then((value) {
+        return null;
+      });
+    } catch (e) {
+      return "error";
+    }
+    return null;
+  }
+
+  ////updating the reminder
+  Future<String?> updateReminder(Reminder changedReminder) async {
+    try {
+      await remindersCollectionReference.doc(changedReminder.id).set({
+        'businessunit': changedReminder.businessUnit,
+        'remindertype': changedReminder.reminderType,
+        'remindercategory': changedReminder.reminderCategory,
+        'entrydate': changedReminder.entryDate,
+        'reminderdate': changedReminder.reminderDate,
+        'description': changedReminder.description
       }).then((value) {
         return null;
       });
@@ -64,24 +83,30 @@ class FireStoreDatabase {
           if (tappedBottomCategory == 0) {
             ////if home button is pressed, fetch all reminders
             reminders.add(Reminder(
-                id: reminder.id,
-                businessUnit: reminder['businessunit'],
-                reminderCategory: reminder['remindercategory'],
-                reminderType: reminder['remindertype'],
-                entryDate: reminder['entrydate'].toDate(),
-                reminderDate: reminder['reminderdate'].toDate()));
+              id: reminder.id,
+              businessUnit: reminder['businessunit'],
+              reminderCategory: reminder['remindercategory'],
+              reminderType: reminder['remindertype'],
+              entryDate: reminder['entrydate'].toDate(),
+              reminderDate: reminder['reminderdate'].toDate(),
+              description: reminder['description'],
+            ));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
-            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
-                int.parse(reminder['remindercategory'])) {
+            if (todaysDate
+                    .difference(reminder['reminderdate'].toDate())
+                    .inDays >=
+                0) {
               reminders.add(
                 Reminder(
-                    id: reminder.id,
-                    businessUnit: reminder['businessunit'],
-                    reminderCategory: reminder['remindercategory'],
-                    reminderType: reminder['remindertype'],
-                    entryDate: reminder['entrydate'].toDate(),
-                    reminderDate: reminder['reminderdate'].toDate()),
+                  id: reminder.id,
+                  businessUnit: reminder['businessunit'],
+                  reminderCategory: reminder['remindercategory'],
+                  reminderType: reminder['remindertype'],
+                  entryDate: reminder['entrydate'].toDate(),
+                  reminderDate: reminder['reminderdate'].toDate(),
+                  description: reminder['description'],
+                ),
               );
             }
           }
@@ -101,17 +126,21 @@ class FireStoreDatabase {
                 reminderCategory: reminder['remindercategory'],
                 reminderType: reminder['remindertype'],
                 entryDate: reminder['entrydate'].toDate(),
+                description: reminder['description'],
                 reminderDate: reminder['reminderdate'].toDate()));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
-            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
-                int.parse(reminder['remindercategory'])) {
+            if (todaysDate
+                    .difference(reminder['reminderdate'].toDate())
+                    .inDays >=
+                0) {
               reminders.add(Reminder(
                   id: reminder.id,
                   businessUnit: reminder['businessunit'],
                   reminderCategory: reminder['remindercategory'],
                   reminderType: reminder['remindertype'],
                   entryDate: reminder['entrydate'].toDate(),
+                  description: reminder['description'],
                   reminderDate: reminder['reminderdate'].toDate()));
             }
           }
@@ -131,17 +160,21 @@ class FireStoreDatabase {
                 reminderCategory: reminder['remindercategory'],
                 reminderType: reminder['remindertype'],
                 entryDate: reminder['entrydate'].toDate(),
+                description: reminder['description'],
                 reminderDate: reminder['reminderdate'].toDate()));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
-            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
-                int.parse(reminder['remindercategory'])) {
+            if (todaysDate
+                    .difference(reminder['reminderdate'].toDate())
+                    .inDays >=
+                0) {
               reminders.add(Reminder(
                   id: reminder.id,
                   businessUnit: reminder['businessunit'],
                   reminderCategory: reminder['remindercategory'],
                   reminderType: reminder['remindertype'],
                   entryDate: reminder['entrydate'].toDate(),
+                  description: reminder['description'],
                   reminderDate: reminder['reminderdate'].toDate()));
             }
           }
@@ -161,17 +194,21 @@ class FireStoreDatabase {
                 reminderCategory: reminder['remindercategory'],
                 reminderType: reminder['remindertype'],
                 entryDate: reminder['entrydate'].toDate(),
+                description: reminder['description'],
                 reminderDate: reminder['reminderdate'].toDate()));
           } else if (tappedBottomCategory == 1) {
             ////if notification button is pressed, fetch only today's tasks
-            if (todaysDate.difference(reminder['entrydate'].toDate()).inDays >=
-                int.parse(reminder['remindercategory'])) {
+            if (todaysDate
+                    .difference(reminder['reminderdate'].toDate())
+                    .inDays >=
+                0) {
               reminders.add(Reminder(
                   id: reminder.id,
                   businessUnit: reminder['businessunit'],
                   reminderCategory: reminder['remindercategory'],
                   reminderType: reminder['remindertype'],
                   entryDate: reminder['entrydate'].toDate(),
+                  description: reminder['description'],
                   reminderDate: reminder['reminderdate'].toDate()));
             }
           }
@@ -180,5 +217,20 @@ class FireStoreDatabase {
     }
 
     return reminders;
+  }
+
+  ///deleting the reminder from the database
+  Future<void> delete(String docNumber) async {
+    return await remindersCollectionReference.doc(docNumber).delete();
+  }
+
+  //snoozing the reminder from popping in the notification
+  Future<void> snoozeReminder({required Reminder remindertoBeSnoozed}) async {
+    await remindersCollectionReference
+        .doc(remindertoBeSnoozed.id.toString())
+        .update({
+      'reminderdate':
+          remindertoBeSnoozed.reminderDate!.add(const Duration(days: 1))
+    });
   }
 }

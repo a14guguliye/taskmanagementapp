@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:taskmanagementapp/services/firebase_auth.dart';
 
-class SigninForm extends StatefulWidget {
+final _formKey = GlobalKey<FormState>();
+
+class SigninForm extends StatelessWidget {
   final Function resetEmailState;
   const SigninForm({Key? key, required this.resetEmailState}) : super(key: key);
-  @override
-  State<SigninForm> createState() => _SigninFormState();
-}
-
-class _SigninFormState extends State<SigninForm> {
-  final _formKey = GlobalKey<FormState>();
-  FireBaseAuthService authService = FireBaseAuthService();
 
   @override
   Widget build(BuildContext context) {
+    FireBaseAuthService authService = FireBaseAuthService();
+
     String? _email;
 
     ////once link has been received sign the user in.
@@ -57,6 +54,8 @@ class _SigninFormState extends State<SigninForm> {
               height: 50,
               child: ElevatedButton(
                 style: ButtonStyle(
+                  ///button background color changes with the
+                  ///different states of button
                   backgroundColor: MaterialStateProperty.resolveWith(
                       (states) => getColor(states)),
                 ),
@@ -65,7 +64,7 @@ class _SigninFormState extends State<SigninForm> {
                     ////send me email to log in
                     await authService.sendEmailLink(_email!);
                     ////showing waiting fish on the screen
-                    widget.resetEmailState();
+                    resetEmailState();
                   }
                 },
                 child: const Text("SIGN IN"),
